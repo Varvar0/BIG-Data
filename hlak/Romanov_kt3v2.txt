@@ -1,0 +1,201 @@
+CREATE TABLE Customers(
+	id SERIAL PRIMARY KEY,
+	Full_name Varchar(50) NOT NULL,
+	Pasport_data varchar(50) NOT NULL
+);
+
+
+CREATE TABLE Transport(
+	id SERIAL PRIMARY KEY,
+	Model varchar(50) NOT NULL,
+	Status varchar(50) NOT NULL
+);
+
+
+CREATE TABLE Groups(
+	id SERIAL PRIMARY KEY,
+	Title varchar(50) NOT NULL,
+	transport_id integer REFERENCES Transport(id)
+);
+
+CREATE TABLE Weapon(
+	id SERIAL PRIMARY KEY,
+	Model varchar(50) NOT NULL
+);
+
+
+CREATE TABLE Achievement(
+	id SERIAL PRIMARY KEY,
+	Merit varchar(50) NOT NULL
+);
+
+
+CREATE TABLE Personal_info(
+	id SERIAL PRIMARY KEY,
+	Medcart varchar(50) NOT NULL,
+	Military_ticket varchar(50) NOT NULL,
+	Bank_detail varchar(50) NOT NULL
+);
+
+
+CREATE TABLE Vacations(
+	id SERIAL PRIMARY KEY,
+	start_date date NOT NULL,
+	end_date date NOT NULL
+);
+
+
+CREATE TABLE Entry_contract(
+	id SERIAL PRIMARY KEY,
+	Date_of_entry date NOT NULL,
+	Date_end_service date NOT NULL
+);
+
+
+CREATE TABLE PMC(
+	id SERIAL PRIMARY KEY,
+	Full_name varchar(70) NOT NULL,
+	Rank varchar(50) NOT NULL,
+	Number_of_group INTEGER REFERENCES Groups(id),
+	info_id INTEGER REFERENCES Personal_info(id),
+	entry_id INTEGER REFERENCES Entry_contract(id),
+	weapon_id INTEGER REFERENCES Weapon(id),
+	achi_id INTEGER REFERENCES Achievement(id),
+	vacation_id INTEGER REFERENCES Vacations(id)
+	
+);
+
+
+
+CREATE TABLE Contract(
+	id SERIAL PRIMARY KEY,
+	Payment INTEGER NOT NULL,
+	Agrement_date date NOT NULL,
+	Expiration_date date NOT NULL,
+	PMC_id INTEGER REFERENCES PMC(id),
+	Customer_id INTEGER REFERENCES Customers(id)
+);
+
+
+
+
+------------------------
+
+------- INSERT --------
+
+------------------------
+
+
+INSERT INTO Customers VALUES
+	(DEFAULT, 'Александр Путин', '3423517'),
+	(DEFAULT, 'Иван Иванов', '2677421');
+
+SELECT * FROM Customers;
+
+
+INSERT INTO Transport VALUES
+	(DEFAULT, 'УРАЛ', 'В строю'),
+	(DEFAULT, 'Велосипед', 'В строю'),
+	(DEFAULT, 'БМП-1', 'На ремонте');
+
+SELECT * FROM Transport;
+
+
+
+INSERT INTO Groups VALUES
+	(DEFAULT, 'BEAR', 1),
+	(DEFAULT, 'USEC', 2),
+	(DEFAULT, 'Дикие', 3);
+
+SELECT * FROM Groups;
+
+
+INSERT INTO weapon VALUES
+	(DEFAULT, 'АК-12'),
+	(DEFAULT, 'АК-74М'),
+	(DEFAULT, 'ПП-Витязь'),
+	(DEFAULT, 'СВД-С'),
+	(DEFAULT, 'РПГ-7');
+	
+SELECT * FROM weapon;
+
+
+INSERT INTO achievement VALUES
+	(DEFAULT, 'Создал компанию'),
+	(DEFAULT, 'В ходе операции, доказал, что он Dungeon Master');
+
+SELECT * FROM achievement;
+
+
+
+INSERT INTO personal_info VALUES
+	(DEFAULT, '343245', '543463', '45367345'),
+	(DEFAULT, '345346', '345321', '67547443'),
+	(DEFAULT, '234627', '234674', '84563422'),
+	(DEFAULT, '343245', '543463', '45367345'),
+	(DEFAULT, '654745', '223432', '23423566'),
+	(DEFAULT, '234311', '665742', '44444444');
+
+SELECT * FROM personal_info;
+
+
+
+INSERT INTO vacations VALUES
+	(DEFAULT, '2004-12-12', '2005-02-13'),
+	(DEFAULT, '2004-12-12', '2005-02-13'),
+	(DEFAULT, '2004-12-12', '2005-02-13');
+	
+SELECT * FROM vacations;
+
+
+
+INSERT INTO entry_contract VALUES
+	(DEFAULT, '1998-06-12', '2033-06-13'),
+	(DEFAULT, '2004-12-12', '2036-12-13'),
+	(DEFAULT, '1960-07-01', '2077-07-01'),
+	(DEFAULT, '2001-01-11', '2033-06-13'),
+	(DEFAULT, '1999-11-23', '2034-06-24'),
+	(DEFAULT, '1998-04-12', '2033-04-11');
+
+SELECT * FROM entry_contract;
+
+
+
+INSERT INTO PMC VALUES
+	(DEFAULT, 'Билли Херрингтон', 'Генерал-лейтенант', 1, 1, 1, 1, 2, NULL),
+	(DEFAULT, 'Евгений Пригожин', 'Генералисимус', 1, 2, 2, 2, 1, NULL),
+	(DEFAULT, 'Артём Тарасовский', 'Рядовой', 2, 3, 3, 3, NULL, NULL),
+	(DEFAULT, 'Артес Менетил', 'Полковник', 3, 4, 4, 4, NULL, NULL),
+	(DEFAULT, 'Пётр Николаев', 'Майор', 3, 5, 5, 5, NULL, NULL),
+	(DEFAULT, 'Вася Нагибаторов', 'Сержант', 2, 6, 6, 2, NULL, NULL);
+	
+SELECT * FROM PMC;
+
+
+
+
+INSERT INTO contract VALUES
+	(DEFAULT, 10000000, '2006-11-11', '2007-10-11', 3, 2),
+	(DEFAULT, 10000000, '2006-11-11', '2007-10-11', 6, 2),
+	(DEFAULT, 10000000, '2006-11-11', '2007-10-11', 5, 2),
+	(DEFAULT, 100000000, '2022-02-24', '2023-06-23', 1, 1),
+	(DEFAULT, 100000000, '2022-02-24', '2023-06-23', 2, 1),
+	(DEFAULT, 100000000, '2022-02-24', '2023-06-23', 4, 1);
+
+SELECT * FROM contract;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
